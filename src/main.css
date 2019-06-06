@@ -1,0 +1,16 @@
+code {
+  font-size: 1.5em !important;
+}
+
+.big-code code {
+  font-size: 2.5em !important;
+}
+
+.big-code {
+  width: 2000 !important;
+}
+
+.spectacle-slide > * > .spectacle-content > img {
+  top: 45% !important;
+  left: 85% !important;
+}
