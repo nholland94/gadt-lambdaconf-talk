@@ -33,29 +33,11 @@ function s(prim) {
 
 var Image = /* module */[];
 
-function make(code, _children) {
-  var init = ReasonReact.statelessComponent("Code");
-  return /* record */[
-          /* debugName */init[/* debugName */0],
-          /* reactClassInternal */init[/* reactClassInternal */1],
-          /* handedOffState */init[/* handedOffState */2],
-          /* willReceiveProps */init[/* willReceiveProps */3],
-          /* didMount */init[/* didMount */4],
-          /* didUpdate */init[/* didUpdate */5],
-          /* willUnmount */init[/* willUnmount */6],
-          /* willUpdate */init[/* willUpdate */7],
-          /* shouldUpdate */init[/* shouldUpdate */8],
-          /* render */(function (_self) {
-              return ReasonReact.element(undefined, undefined, CodeSlide$ReactTemplate.make("ocaml", code.source, code.ranges, true, undefined, /* array */[]));
-            }),
-          /* initialState */init[/* initialState */10],
-          /* retainedProps */init[/* retainedProps */11],
-          /* reducer */init[/* reducer */12],
-          /* jsElementWrapped */init[/* jsElementWrapped */13]
-        ];
+function cons(code) {
+  return ReasonReact.element(undefined, undefined, CodeSlide$ReactTemplate.make("ocaml", code.source, code.ranges, true, undefined, /* array */[]));
 }
 
-var Code = /* module */[/* make */make];
+var Code = /* module */[/* cons */cons];
 
 function string_fold(f, init, str) {
   var length = str.length;
@@ -86,7 +68,7 @@ function count_lines(param) {
   return string_fold(f, 1, param);
 }
 
-function cons(title, image, source) {
+function cons$1(title, image, source) {
   var tmp = {
     loc: /* array */[
       0,
@@ -104,10 +86,10 @@ function cons(title, image, source) {
 var InlineCode = /* module */[
   /* string_fold */string_fold,
   /* count_lines */count_lines,
-  /* cons */cons
+  /* cons */cons$1
 ];
 
-function make$1(_children) {
+function make(_children) {
   var init = ReasonReact.statelessComponent("Presentation");
   return /* record */[
           /* debugName */init[/* debugName */0],
@@ -257,16 +239,16 @@ function make$1(_children) {
                                         }
                                       ], undefined, undefined, /* array */[])),
                               ReasonReact.element(undefined, undefined, Slide$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */[ReasonReact.element(undefined, undefined, Heading$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */["A Review of ADTs"]))])),
-                              cons("Basic ADT", undefined, "type example =\n  | A\n  | B of int\n  | C of string * float\n\nlet something : example = C (\"hello\", 3.14)"),
-                              cons("List ADT", undefined, "type 'a list =\n  | []\n  | (::) of 'a * 'a list\n\nlet empty : 'a list = []\nlet fibs : int list = [0; 1; 1; 2; 3; 5; 8; 13]"),
-                              cons("Binary Tree ADT", Caml_option.some(Btree_adt_exampleDotPng), "type 'a btree =\n  | Leaf of 'a\n  | Branch of 'a * 'a btree * 'a btree\n\nlet sorted_tree : int btree =\nBranch (25, Branch (15, Leaf 5, Leaf 17), Leaf 64)"),
+                              cons$1("Basic ADT", undefined, "type example =\n  | A\n  | B of int\n  | C of string * float\n\nlet something : example = C (\"hello\", 3.14)"),
+                              cons$1("List ADT", undefined, "type 'a list =\n  | []\n  | (::) of 'a * 'a list\n\nlet empty : 'a list = []\nlet fibs : int list = [0; 1; 1; 2; 3; 5; 8; 13]"),
+                              cons$1("Binary Tree ADT", Caml_option.some(Btree_adt_exampleDotPng), "type 'a btree =\n  | Leaf of 'a\n  | Branch of 'a * 'a btree * 'a btree\n\nlet sorted_tree : int btree =\n  Branch (25,\n    Branch (15, Leaf 5, Leaf 17),\n    Leaf 64)"),
                               ReasonReact.element(undefined, undefined, Slide$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */[
                                         ReasonReact.element(undefined, undefined, Heading$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */["Limitations of ADTs"])),
                                         ReasonReact.element(undefined, undefined, Notes$BsSpectacle.make(/* array */["ADTs are great, but since every constructor for an ADT has the exact same type, we can't reason about types encapsulated by ADT constructors"]))
                                       ])),
-                              cons("ADT Expression Tree", undefined, "type value =\n  | Int of int\n  | Bool of bool\n\ntype exp =\n  | Value of value\n  | Not of exp\n  | And of exp * exp\n  | Add of exp * exp\n  | Equal of exp * exp"),
-                              cons("Safety Issues", undefined, "(* 2 + 3 *)\nlet test 1 : exp =\n  Add (Value (Int 2), Value (Int 3))\n\n(* 5 && true *)\nlet test1 : exp =\n  And (Value (Int 5), Value (Bool true))\n\n(* 2 + (5 = 3) *)\nlet test2 : exp =\n  Add (Value (Int 2), Equal (Value (Int 5), Value (Int 3)))"),
-                              ReasonReact.element(undefined, undefined, CodeSlide$ReactTemplate.make("ocaml", "(* 5 *)\nlet test1 : int exp = Value (Int, 5)\n\n(* 5 = 3 *)\nlet test2 : bool exp =Equal (Value (Int, 5), Value (Int, 3))\n\n(* type error *)\nlet test3 : _ exp =\n  Add (Value (Int, 10), Value (Bool, false))", /* array */[
+                              cons$1("ADT Expression Tree", undefined, "type value =\n  | Int of int\n  | Bool of bool\n\ntype exp =\n  | Value of value\n  | Not of exp\n  | And of exp * exp\n  | Add of exp * exp\n  | Equal of exp * exp"),
+                              cons$1("Safety Issues", undefined, "(* 2 + 3 *)\nlet test1 : exp =\n  Add (Value (Int 2), Value (Int 3))\n\n(* 5 && true *)\nlet test2 : exp =\n  And (Value (Int 5), Value (Bool true))\n\n(* 2 + (5 = 3) *)\nlet test3 : exp =\n  Add (Value (Int 2), Equal (Value (Int 5), Value (Int 3)))"),
+                              ReasonReact.element(undefined, undefined, CodeSlide$ReactTemplate.make("ocaml", "(* 5 *)\nlet test1 : int exp = Value (Int, 5)\n\n(* 5 = 3 *)\nlet test2 : bool exp = Equal (Value (Int, 5), Value (Int, 3))\n\n(* 2 + (5 = 3) *)\nlet test3 : _ exp =\n  Add (Value (Int, 2), Equal (Value (Int, 5), Value (Int, 3)))\n(* type error! *)", /* array */[
                                         {
                                           loc: /* array */[
                                             0,
@@ -282,21 +264,24 @@ function make$1(_children) {
                                           title: "If We Had Used a GADT..."
                                         }
                                       ], undefined, undefined, /* array */[])),
-                              ReasonReact.element(undefined, undefined, Slide$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */[ReasonReact.element(undefined, undefined, Heading$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */["Basic GADT Constructions"]))])),
-                              cons("Type Witness", undefined, "type 'a witness =\n  | Int : int witness\n  | Float : float witness"),
-                              cons("Recursive Type Witness", undefined, "type 'a witness =\n  | Int : int witness\n  | Float : float witness\n  | List : 'a witness -> ('a list) witness "),
-                              cons("ADT Peano Numbers", undefined, "type peano =\n  | Zero\n  | Succ of peano\n\nlet zero = Zero\nlet one = Succ Zero\n...\nlet four = Succ (Succ (Succ (Succ Zero)))"),
-                              ReasonReact.element(undefined, undefined, make(PeanoMl, /* array */[])),
-                              ReasonReact.element(undefined, undefined, make(VectMl, /* array */[])),
-                              ReasonReact.element(undefined, undefined, make(HlistMl, /* array */[])),
+                              ReasonReact.element(undefined, undefined, Slide$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */[
+                                        ReasonReact.element(undefined, undefined, Heading$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */["Basic GADT Constructions"])),
+                                        ReasonReact.element(undefined, undefined, Notes$BsSpectacle.make(/* array */[React.createElement("ul", undefined, React.createElement("li", undefined, "now that we have a basic understanding of what GADTs give us, let's start looking at some basic constructions"), React.createElement("li", undefined, "we are going to start very simple -- this means that our first couple of constructions may not seem immediately useful, but worry not; they will be later"))]))
+                                      ])),
+                              cons$1("Type Witness", undefined, "type 'a witness =\n  | Int : int witness\n  | Float : float witness"),
+                              cons$1("Recursive Type Witness", undefined, "type 'a witness =\n  | Int : int witness\n  | Float : float witness\n  | List : 'a witness -> ('a list) witness"),
+                              cons$1("ADT Peano Numbers", undefined, "type peano =\n  | Zero\n  | Succ of peano\n\nlet zero = Zero\nlet one = Succ Zero\n...\nlet four = Succ (Succ (Succ (Succ Zero)))"),
+                              cons(PeanoMl),
+                              cons(VectMl),
+                              cons(HlistMl),
                               ReasonReact.element(undefined, undefined, Slide$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */[
                                         ReasonReact.element(undefined, undefined, Heading$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */["\"Value Safe\" Functions Using GADTs"])),
-                                        ReasonReact.element(undefined, undefined, Notes$BsSpectacle.make(/* array */[React.createElement("ul", undefined, React.createElement("li", undefined, "now that we have some basic GADTs, let's define some \"value safe functions\""), React.createElement("li", undefined, "value safe function = function with compile time limitations what values can be passed into it"), React.createElement("li", undefined, "now that we have exposed some type parameters from our ADT definitions using GADTs, we can express type level restrictions"))]))
+                                        ReasonReact.element(undefined, undefined, Notes$BsSpectacle.make(/* array */[React.createElement("ul", undefined, React.createElement("li", undefined, "now that we have exposed some type parameters from our ADT definitions using GADTs, we can express type level restrictions"), React.createElement("li", undefined, "value safe function = function with compile time limitations what values can be passed into it"))]))
                                       ])),
-                              ReasonReact.element(undefined, undefined, make(Take_fiveMl, /* array */[])),
-                              ReasonReact.element(undefined, undefined, make(Vect_reduceMl, /* array */[])),
+                              cons(Take_fiveMl),
+                              cons(Vect_reduceMl),
                               ReasonReact.element(undefined, undefined, Slide$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */[ReasonReact.element(undefined, undefined, Heading$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */["Adding Invariants to Data Structures"]))])),
-                              ReasonReact.element(undefined, undefined, make(BbtreeMl, /* array */[])),
+                              cons(BbtreeMl),
                               ReasonReact.element(undefined, undefined, Slide$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */[
                                         ReasonReact.element(undefined, undefined, Heading$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */["Encoding Restrictions on Application Logic"])),
                                         ReasonReact.element(undefined, undefined, Notes$BsSpectacle.make(/* array */[React.createElement("ul", undefined, React.createElement("li", undefined, "let's move on to a more practical example that's a little easier to see how it can be useful"), React.createElement("li", undefined, "the problem and solution we will review is related to my work on Coda, and is an existing solution we use today to make our code safer"))]))
@@ -604,17 +589,21 @@ function make$1(_children) {
                                                 ])),
                                         ReasonReact.element(undefined, undefined, Notes$BsSpectacle.make(/* array */["much better -- though let's start simple and just begin with implementing a single validation state"]))
                                       ])),
-                              ReasonReact.element(undefined, undefined, make(Validation_singleMl, /* array */[])),
-                              ReasonReact.element(undefined, undefined, make(Validation_multiMl, /* array */[])),
+                              cons(Validation_singleMl),
+                              cons(Validation_multiMl),
                               ReasonReact.element(undefined, undefined, Slide$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */[
                                         ReasonReact.element(undefined, undefined, Heading$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */["Full Circle"])),
                                         ReasonReact.element(undefined, undefined, Text$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */["Implementing an Expression Tree as a GADT"])),
                                         ReasonReact.element(undefined, undefined, Notes$BsSpectacle.make(/* array */["let's revisit the original example of expression trees"]))
                                       ])),
-                              ReasonReact.element(undefined, undefined, make(ExpMl, /* array */[])),
+                              cons(ExpMl),
                               ReasonReact.element(undefined, undefined, Slide$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */[
                                         ReasonReact.element(undefined, undefined, Heading$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */["Limitations of GADTs"])),
                                         ReasonReact.element(undefined, undefined, Notes$BsSpectacle.make(/* array */[React.createElement("ul", undefined, React.createElement("li", undefined, "often limits ability to do tail recursion"), React.createElement("li", undefined, "some techniques can require extra allocations for unused runtime values in order to express a proof"), React.createElement("li", undefined, "limited scope of applications compared to proper dependent types (but you can get it in your programming language todayi"))]))
+                                      ])),
+                              ReasonReact.element(undefined, undefined, Slide$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */[
+                                        ReasonReact.element(undefined, undefined, Heading$BsSpectacle.make(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* array */["Conclusions"])),
+                                        ReasonReact.element(undefined, undefined, Notes$BsSpectacle.make(/* array */[React.createElement("ul", undefined, React.createElement("li", undefined, "GADTs are extremely useful for certain things, but knowing how and when to use them effectively can be tricky"), React.createElement("li", undefined, "My recommendation: just start trying to use them for personal projects, and learn the techniques and limitations yourself"), React.createElement("li", undefined, "The End"))]))
                                       ]))
                             ]));
             }),
@@ -629,5 +618,5 @@ exports.s = s;
 exports.Image = Image;
 exports.Code = Code;
 exports.InlineCode = InlineCode;
-exports.make = make$1;
+exports.make = make;
 /* react Not a pure module */

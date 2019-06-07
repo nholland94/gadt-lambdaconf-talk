@@ -31,5 +31,4 @@ type time_validated_block =
          ( [`Time] * true_ tbool
          , [`Transactions] * 'a tbool )
          block_with_validation
-      -> time_validated_block =
-  ...
+      -> time_validated_block

@@ -121,8 +121,10 @@ class CodeSlide extends React.Component {
     console.log('ouch');
     const slide = this.context.store.getState().route.slide;
     console.log({slideIndex: this.props.slideIndex, slide: slide});
-    // return this.props.slideIndex === parseInt(slide);
-    return true
+    // debugger;
+    // return this.refs.slide && document.body.contains(this.refs.slide.slideRef);
+    return this.props.slideIndex === parseInt(slide);
+    // return true
   }
 
   goTo(active, skipLocalStorage) {

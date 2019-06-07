@@ -24,16 +24,12 @@ module Code = {
   [@bs.module] external validation_single: t = "../prov/validation_single.ml";
   [@bs.module] external vect_reduce: t = "../prov/vect_reduce.ml";
 
-  let make = (~code, _children) => {
-    ...ReasonReact.statelessComponent("Code"),
-    render: (_self) => {
-      <CodeSlide
-        lang="ocaml"
-        showLineNumbers=true
-        code=sourceGet(code)
-        ranges=rangesGet(code) />
-    }
-  }
+  let cons = (code) =>
+    <CodeSlide
+      lang="ocaml"
+      showLineNumbers=true
+      code=sourceGet(code)
+      ranges=rangesGet(code) />
 }
 
 module InlineCode = {
@@ -158,7 +154,9 @@ type 'a btree =
   | Branch of 'a * 'a btree * 'a btree
 
 let sorted_tree : int btree =
-Branch (25, Branch (15, Leaf 5, Leaf 17), Leaf 64)")}
+  Branch (25,
+    Branch (15, Leaf 5, Leaf 17),
+    Leaf 64)")}
 
       <Slide>
         <Heading>(s("Limitations of ADTs"))</Heading>
@@ -179,15 +177,15 @@ type exp =
 
       {InlineCode.cons(~title="Safety Issues", "\
 (* 2 + 3 *)
-let test 1 : exp =
+let test1 : exp =
   Add (Value (Int 2), Value (Int 3))
 
 (* 5 && true *)
-let test1 : exp =
+let test2 : exp =
   And (Value (Int 5), Value (Bool true))
 
 (* 2 + (5 = 3) *)
-let test2 : exp =
+let test3 : exp =
   Add (Value (Int 2), Equal (Value (Int 5), Value (Int 3)))")}
 
       <CodeSlide
@@ -197,11 +195,12 @@ let test2 : exp =
 let test1 : int exp = Value (Int, 5)
 
 (* 5 = 3 *)
-let test2 : bool exp =Equal (Value (Int, 5), Value (Int, 3))
+let test2 : bool exp = Equal (Value (Int, 5), Value (Int, 3))
 
-(* type error *)
+(* 2 + (5 = 3) *)
 let test3 : _ exp =
-  Add (Value (Int, 10), Value (Bool, false))"}
+  Add (Value (Int, 2), Equal (Value (Int, 5), Value (Int, 3)))
+(* type error! *)"}
         ranges=[|
           CodeSlide.range(~loc=[|0, 5|], ~title="If We Had Used a GADT...", ()),
           CodeSlide.range(~loc=[|6, 10|], ~title="If We Had Used a GADT...", ())
@@ -209,9 +208,19 @@ let test3 : _ exp =
 
       // -- sum up: hopefully this gives you a concept of the power of gadts, but before we get to how these examples are implemented, let's go over some more fundamental gadt constructions first
 
-      // TODO: transition here
-      <Slide> <Heading>(s("Basic GADT Constructions"))</Heading> </Slide>
+      <Slide>
+        <Heading>(s("Basic GADT Constructions"))</Heading>
+        <Notes>
+          <ul>
+            <li>(s("now that we have a basic understanding of what GADTs give us, let's start looking at some basic constructions"))</li>
+            <li>(s("we are going to start very simple -- this means that our first couple of constructions may not seem immediately useful, but worry not; they will be later"))</li>
+          </ul>
+        </Notes>
+      </Slide>
 
+      // A type witness is a GADT that defines a direct mapping between its constructors and the type parameter of the GADT
+      // In a sense, this allows us to "reflect" information about our constructor into the type system
+      // The language understands here that the only possible inhabitants of the type parameter are int and float
       {InlineCode.cons(~title="Type Witness", "\
 type 'a witness =
   | Int : int witness
@@ -221,7 +230,7 @@ type 'a witness =
 type 'a witness =
   | Int : int witness
   | Float : float witness
-  | List : 'a witness -> ('a list) witness ")}
+  | List : 'a witness -> ('a list) witness")}
 
       {InlineCode.cons(~title="ADT Peano Numbers", "\
 type peano =
@@ -233,27 +242,26 @@ let one = Succ Zero
 ...
 let four = Succ (Succ (Succ (Succ Zero)))")}
 
-      <Code code=Code.peano />
-      <Code code=Code.vect />
-      <Code code=Code.hlist />
+      {Code.cons(Code.peano)}
+      {Code.cons(Code.vect)}
+      {Code.cons(Code.hlist)}
 
       <Slide>
         <Heading>(s("\"Value Safe\" Functions Using GADTs"))</Heading>
         <Notes>
           <ul>
-            <li>(s("now that we have some basic GADTs, let's define some \"value safe functions\""))</li>
-            <li>(s("value safe function = function with compile time limitations what values can be passed into it"))</li>
             <li>(s("now that we have exposed some type parameters from our ADT definitions using GADTs, we can express type level restrictions"))</li>
+            <li>(s("value safe function = function with compile time limitations what values can be passed into it"))</li>
           </ul>
         </Notes>
       </Slide>
 
-      <Code code=Code.take_five />
-      <Code code=Code.vect_reduce />
+      {Code.cons(Code.take_five)}
+      {Code.cons(Code.vect_reduce)}
 
       <Slide> <Heading>(s("Adding Invariants to Data Structures"))</Heading> </Slide>
 
-      <Code code=Code.bbtree />
+      {Code.cons(Code.bbtree)}
 
       <Slide>
         <Heading>(s("Encoding Restrictions on Application Logic"))</Heading>
@@ -308,8 +316,8 @@ let four = Succ (Succ (Succ (Succ Zero)))")}
         <Notes>(s("much better -- though let's start simple and just begin with implementing a single validation state"))</Notes>
       </Slide>
 
-      <Code code=Code.validation_single />
-      <Code code=Code.validation_multi />
+      {Code.cons(Code.validation_single)}
+      {Code.cons(Code.validation_multi)}
 
       <Slide>
         <Heading>(s("Full Circle"))</Heading>
@@ -317,7 +325,7 @@ let four = Succ (Succ (Succ (Succ Zero)))")}
         <Notes>(s("let's revisit the original example of expression trees"))</Notes>
       </Slide>
 
-      <Code code=Code.exp />
+      {Code.cons(Code.exp)}
 
       <Slide>
         <Heading>(s("Limitations of GADTs"))</Heading>
@@ -330,7 +338,27 @@ let four = Succ (Succ (Succ (Succ Zero)))")}
         </Notes>
       </Slide>
 
-      // TODO: outro slide
+      // <Slide>
+      //   <Heading>(s("GADTs: Friend or Foe?"))</Heading>
+      //   <Notes>
+      //     <ul>
+      //       <li>(s("one argument against GADTs is that they are complex and can cause confusing type errors"))</li>
+      //       <li>(s("yet the strengths are just too good to be ignored"))</li>
+      //       <li>(s("best use case"))</li>
+      //     </ul>
+      //   </Notes>
+      // </Slide>
+
+      <Slide>
+        <Heading>(s("Conclusions"))</Heading>
+        <Notes>
+          <ul>
+            <li>(s("GADTs are extremely useful for certain things, but knowing how and when to use them effectively can be tricky"))</li>
+            <li>(s("My recommendation: just start trying to use them for personal projects, and learn the techniques and limitations yourself"))</li>
+            <li>(s("The End"))</li>
+          </ul>
+        </Notes>
+      </Slide>
     </Deck>
   }
 };
